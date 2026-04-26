@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+.patient-dashboard {
+  @apply flex min-h-screen bg-yellow-50;
+  background-image: url('https://images.unsplash.com/photo-1551190822-a9333d879b1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+  background-size: cover;
+  background-position: center;
+}
+
+.patient-sidebar {
+  @apply w-64 bg-white text-gray-800 p-5 space-y-6 shadow-lg border-r border-gray-200;
+}
+
+.patient-title {
+  @apply text-xl font-bold text-blue-600;
+}
+
+.patient-nav {
+  @apply flex flex-col space-y-4;
+}
+
+.patient-nav-link {
+  @apply text-gray-700 hover:text-blue-600 transition-colors;
+}
+
+.patient-nav-link.active {
+  @apply text-blue-600 font-semibold;
+}
+
+.patient-main {
+  @apply flex-1 p-6 bg-yellow-50/95;
+}

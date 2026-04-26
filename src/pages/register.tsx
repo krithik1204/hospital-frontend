@@ -1,23 +1,33 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
-import { register } from "./api/auth";
+import { register } from "../features/auth/authApi";
+import "./css/register.css";
+
+interface InputRowProps {
+  label: string;
+  name: string;
+  type?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+}
 
 /* ✅ MUST be outside component to avoid re-render issues */
-const InputRow = ({ label, name, type = "text", value, onChange, placeholder }) => (
-  <div className="flex items-center gap-4">
-    <label className="w-36 text-sm text-blue-100">{label}</label>
+const InputRow: React.FC<InputRowProps> = ({ label, name, type = "text", value, onChange, placeholder }) => (
+  <div className="input-row">
+    <label className="input-label">{label}</label>
     <input
       type={type}
       name={name}
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className="flex-1 rounded-md bg-white/20 px-3 py-2 text-white placeholder-blue-200 outline-none focus:ring-2 focus:ring-blue-400"
+      className="input-field"
     />
   </div>
 );
 
-export const Register = () => {
+export const Register: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isLogin = location.pathname === "/login";
@@ -33,7 +43,7 @@ export const Register = () => {
   });
 
   /* ✅ FIXED handleChange (prevents cursor jump issues) */
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
@@ -46,7 +56,7 @@ export const Register = () => {
     console.log("Component mounted");
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     alert(formData);
     const res = await register(formData);
@@ -56,14 +66,14 @@ export const Register = () => {
 
   return (
     <>
-      <main className="flex-grow flex items-center justify-center px-4">
-        <div className="w-full max-w-lg bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg">
+      <main className="register-main">
+        <div className="register-card">
 
-          <h2 className="text-center text-2xl font-bold text-white">
+          <h2 className="register-title">
             {isLogin ? "Login to your account" : "Create your account"}
           </h2>
 
-          <form onSubmit={handleSubmit} className="space-y-4 mt-6">
+          <form onSubmit={handleSubmit} className="register-form">
 
             <InputRow
               label="First Name"
@@ -99,11 +109,11 @@ export const Register = () => {
             />
 
             {/* ✅ GENDER RADIO BUTTONS */}
-            <div className="flex items-center gap-4">
-              <label className="w-36 text-sm text-blue-100">Gender</label>
+            <div className="gender-section">
+              <label className="gender-label">Gender</label>
 
-              <div className="flex gap-6 text-white">
-                <label className="flex items-center gap-2 cursor-pointer">
+              <div className="gender-options">
+                <label className="gender-option">
                   <input
                     type="radio"
                     name="gender"
@@ -115,7 +125,7 @@ export const Register = () => {
                   Male
                 </label>
 
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="gender-option">
                   <input
                     type="radio"
                     name="gender"
@@ -127,7 +137,7 @@ export const Register = () => {
                   Female
                 </label>
 
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="gender-option">
                   <input
                     type="radio"
                     name="gender"
@@ -161,12 +171,12 @@ export const Register = () => {
 
             <button
               type="submit"
-              className="w-full text-white py-2 rounded-md font-semibold bg-blue-500 hover:bg-blue-400 transition"
+              className="register-btn"
             >
               Register
             </button>
 
-            <p className="text-center text-sm text-blue-200 mt-4">
+            <p className="register-link">
               Already have an account?{" "}
               <NavLink to="/login" className="text-white hover:underline">
                 Login
@@ -177,8 +187,8 @@ export const Register = () => {
         </div>
       </main>
 
-      <footer className="bg-blue-950/70 text-blue-200 text-sm py-4 px-6 mt-6">
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
+      <footer className="footer">
+        <div className="footer-content">
           <p>© 2026 MyApp. All rights reserved.</p>
 
           <div className="flex space-x-4">

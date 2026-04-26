@@ -1,13 +1,16 @@
-import './App.css'
-import './register.css'
+import './css/App.css'
+import './pages/css/register.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
-import App from './App.jsx'
+import { store } from "./app/store";
+import App from './App'
 
-createRoot(document.getElementById('root')).render(
+const rootElement = document.getElementById('root');
+if (!rootElement) throw new Error('Failed to find the root element');
+
+createRoot(rootElement).render(
   <StrictMode>
     <Provider store={store}>
     <BrowserRouter>

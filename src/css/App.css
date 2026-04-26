@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+.app-container {
+  @apply min-h-screen flex flex-col bg-blue-50;
+  background-image: url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.app-header {
+  @apply w-full flex items-center justify-between px-6 py-4 bg-blue-600/90 backdrop-blur-md shadow-lg;
+}
+
+.app-title {
+  @apply text-white text-lg font-semibold;
+}
+
+.app-nav {
+  @apply flex items-center gap-4 text-sm text-blue-100;
+}
+
+.nav-link {
+  @apply hover:text-white transition-colors;
+}
+
+.user-email {
+  @apply text-blue-100 font-medium;
+}
+
+.logout-btn {
+  @apply text-red-200 hover:text-white transition-colors;
+}
+
+.app-main {
+  @apply flex-grow bg-blue-50/95;
+}

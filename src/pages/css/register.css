@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+.register-main {
+  @apply flex-grow flex items-center justify-center px-4 bg-purple-50;
+  background-image: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+  background-size: cover;
+  background-position: center;
+}
+
+.register-card {
+  @apply w-full max-w-lg bg-white rounded-xl p-6 shadow-xl border border-gray-200;
+}
+
+.register-title {
+  @apply text-center text-2xl font-bold text-gray-800;
+}
+
+.register-form {
+  @apply space-y-4 mt-6;
+}
+
+.input-row {
+  @apply flex items-center gap-4;
+}
+
+.input-label {
+  @apply w-36 text-sm text-gray-700 font-medium;
+}
+
+.input-field {
+  @apply flex-1 rounded-md bg-gray-50 px-3 py-2 text-gray-900 placeholder-gray-500 outline-none focus:ring-2 focus:ring-blue-500 border border-gray-300;
+}
+
+.gender-section {
+  @apply flex items-center gap-4;
+}
+
+.gender-label {
+  @apply w-36 text-sm text-gray-700 font-medium;
+}
+
+.gender-options {
+  @apply flex gap-6 text-gray-900;
+}
+
+.gender-option {
+  @apply flex items-center gap-2 cursor-pointer;
+}
+
+.register-btn {
+  @apply w-full text-white py-2 rounded-md font-semibold bg-purple-600 hover:bg-purple-700 transition-colors;
+}
+
+.register-link {
+  @apply text-center text-sm text-blue-200 mt-4;
+}
+
+.footer {
+  @apply bg-blue-950/70 text-blue-200 text-sm py-4 px-6 mt-6;
+}
+
+.footer-content {
+  @apply flex flex-col sm:flex-row justify-between items-center gap-2;
+}
