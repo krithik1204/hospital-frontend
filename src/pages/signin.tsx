@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FormEvent, type FC, useState, useEffect } from "react";
+import { type ChangeEvent, type FormEvent, type FC, useState } from "react";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { login } from "../features/auth/authApi";
 import { useDispatch } from "react-redux";
@@ -27,10 +27,6 @@ export const Signin: FC = () => {
       [name]: value,
     }));
   };
-
-  useEffect(() => {
-    console.log("Component mounted");
-  }, []);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

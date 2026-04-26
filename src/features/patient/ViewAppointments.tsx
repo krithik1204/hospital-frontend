@@ -25,13 +25,11 @@ const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchAppointments = async () => {
-      let result;
       if (isAdmin && token) {
-      result=  await execute(() => getAllAppointments(token).then((res) => res.data));
+        await execute(() => getAllAppointments(token).then((res) => res.data));
       } else if (isPatient && userId && token) {
-        result = await execute(() => getPatientAppointments(userId, token).then((res) => res.data));
+        await execute(() => getPatientAppointments(userId, token).then((res) => res.data));
       }
-       console.log("Appointments response:", result);
     };
 
     if ((isAdmin && token) || (isPatient && userId && token)) {

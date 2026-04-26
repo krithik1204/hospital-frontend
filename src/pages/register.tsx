@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FormEvent, type FC, useState, useEffect } from "react";
+import { type ChangeEvent, type FormEvent, type FC, useState } from "react";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { register } from "../features/auth/authApi";
 import { InputRow } from "../components/InputRow";
@@ -31,15 +31,10 @@ export const Register: FC = () => {
     }));
   };
 
-  useEffect(() => {
-    console.log("Component mounted");
-  }, []);
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await execute(() => register(formData), { saving: true });
-      console.log(res.data);
+      await execute(() => register(formData), { saving: true });
       navigate("/login");
     } catch (err) {
       console.error("Registration failed:", err);

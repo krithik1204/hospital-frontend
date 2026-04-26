@@ -25,7 +25,6 @@ export const CreateDoctors: FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     alert("Doctor created: " + JSON.stringify(formData));
-    // TODO: Integrate with API
   };
 
   return (
