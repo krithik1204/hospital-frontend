@@ -26,10 +26,18 @@ export const login = (data: LoginData) => {
 };
 
 // APPOINTMENTS
-export const getAllAppointments = () => {
-  return axiosInstance.get("/api/appointments");
+export const getAllAppointments = (token: string) => {
+  return axiosInstance.get("/api/appointments/viewAll", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
 };
 
-export const getPatientAppointments = (patientId: string) => {
-  return axiosInstance.get(`/api/appointments/patient/${patientId}`);
+export const getPatientAppointments = (patientId: string, token: string) => {
+  return axiosInstance.get(`/api/appointments/patient/${patientId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
 };

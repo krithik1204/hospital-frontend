@@ -15,6 +15,7 @@ interface Appointment {
 
 export const ViewAppointments: FC = () => {
   const { data: appointments, loading, rejected, error, success, execute } = useApiCall<Appointment[]>();
+const token = localStorage.getItem("token");
 
   const roles = useSelector((state: any) => state.auth.roles);
   const userId = useSelector((state: any) => state.auth.userId);
@@ -24,17 +25,19 @@ export const ViewAppointments: FC = () => {
 
   useEffect(() => {
     const fetchAppointments = async () => {
-      if (isAdmin) {
-        await execute(() => getAllAppointments().then((res) => res.data));
-      } else if (isPatient && userId) {
-        await execute(() => getPatientAppointments(userId).then((res) => res.data));
+      let result;
+      if (isAdmin && token) {
+      result=  await execute(() => getAllAppointments(token).then((res) => res.data));
+      } else if (isPatient && userId && token) {
+        result = await execute(() => getPatientAppointments(userId, token).then((res) => res.data));
       }
+       console.log("Appointments response:", result);
     };
 
-    if (isAdmin || (isPatient && userId)) {
+    if ((isAdmin && token) || (isPatient && userId && token)) {
       fetchAppointments();
     }
-  }, [isAdmin, isPatient, userId, execute]);
+  }, []);
 
   return (
     <div className="view-appointments-main">
