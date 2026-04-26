@@ -34,16 +34,16 @@ export const Signin = () => {
 
     try {
       const response = await login(formData);
-
+console.log(JSON.stringify(response.data));
       const token = response?.data?.token;
-
+       const role = response?.data?.roles;
       if (!token) {
         alert("Invalid login response");
         return;
       }
 
       // ✅ Store token via RTK
-      dispatch(loginSuccess(token));
+      dispatch(loginSuccess(response.data));
 
       // 👉 redirect after login
     navigate("/patient/book");

@@ -12,7 +12,14 @@ function App() {
   const isAuthenticated = useSelector(
     (state) => state.auth.isAuthenticated
   );
-
+   const roles = useSelector(
+    (state) => state.auth.roles
+  );
+  const hasRole = (r) => roles.includes(r);
+console.log("isAuthenticated"+isAuthenticated);
+console.log("Roles is"+roles);
+const flag=hasRole("ROLE_ADMIN");
+console.log('Flag is'+flag);
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600">
 
@@ -60,8 +67,8 @@ function App() {
           path="/patient"
           element={isAuthenticated ? <PatientDashboard /> : <Navigate to="/login" />}
         >
-          <Route path="book" element={<BookAppointment />} />
-          <Route path="view" element={<ViewAppointments />} />
+          <Route path="book" element={hasRole("ROLE_PATIENT") ? <BookAppointment />:<Navigate to="/login" />} />
+          <Route path="view" element={hasRole("ROLE_ADMIN") || hasRole("ROLE_PATIENT") ?<ViewAppointments />:<Navigate to="/login" />} />
         </Route>
       </Routes>
 
@@ -70,3 +77,4 @@ function App() {
 }
 
 export default App;
+

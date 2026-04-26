@@ -1,3 +1,17 @@
+import { useEffect } from "react";
+
 export const ViewAppointments = () => {
-  return <h1 className="text-2xl font-bold">View Appointments</h1>;
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    console.log("JWT TOKEN:", token);
+     console.log("Role:", localStorage.getItem("role"));
+  }, []);
+
+  return (
+    <div>
+      <h1>View Appointments</h1>
+    </div>
+  );
 };
