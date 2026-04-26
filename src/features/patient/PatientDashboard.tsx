@@ -1,9 +1,9 @@
-import React from "react";
+import { type FC } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./css/PatientDashboard.css";
 
-export const PatientDashboard: React.FC = () => {
+export const PatientDashboard: FC = () => {
   const roles = useSelector((state: any) => state.auth.roles);
   const canBook = roles.includes("ROLE_PATIENT");
 

@@ -1,8 +1,8 @@
-import React from "react";
+import { type FC } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import "./css/AdminDashboard.css";
 
-export const AdminDashboard: React.FC = () => {
+export const AdminDashboard: FC = () => {
   return (
     <div className="admin-dashboard">
       <aside className="admin-sidebar">

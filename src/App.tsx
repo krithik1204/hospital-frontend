@@ -1,11 +1,11 @@
-import React from "react";
+import { type FC } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "./features/auth/authSlice";
 import { AppRoutes } from "./routes/AppRoutes";
 import "./css/App.css";
 
-const App: React.FC = () => {
+const App: FC = () => {
   const dispatch = useDispatch();
   const { isAuthenticated, email } = useSelector((state: any) => state.auth);
 

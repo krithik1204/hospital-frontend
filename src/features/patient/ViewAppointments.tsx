@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { type FC, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { getAllAppointments, getPatientAppointments } from "../../features/auth/authApi";
 import { useApiCall } from "../../hooks/useApiCall";
@@ -13,8 +13,8 @@ interface Appointment {
   status: string;
 }
 
-export const ViewAppointments: React.FC = () => {
-  const { data: appointments, loading, error, success, execute } = useApiCall<Appointment[]>();
+export const ViewAppointments: FC = () => {
+  const { data: appointments, loading, rejected, error, success, execute } = useApiCall<Appointment[]>();
 
   const roles = useSelector((state: any) => state.auth.roles);
   const userId = useSelector((state: any) => state.auth.userId);
@@ -25,9 +25,9 @@ export const ViewAppointments: React.FC = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       if (isAdmin) {
-        await execute(() => getAllAppointments());
+        await execute(() => getAllAppointments().then((res) => res.data));
       } else if (isPatient && userId) {
-        await execute(() => getPatientAppointments(userId));
+        await execute(() => getPatientAppointments(userId).then((res) => res.data));
       }
     };
 
@@ -50,7 +50,7 @@ export const ViewAppointments: React.FC = () => {
           </div>
         )}
 
-        {error && (
+        {rejected && error && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
             <p className="text-red-800 font-medium">Error loading appointments</p>
             <p className="text-red-600 text-sm">{error}</p>

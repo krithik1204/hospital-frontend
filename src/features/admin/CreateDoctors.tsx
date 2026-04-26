@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { type ChangeEvent, type FC, type FormEvent, useState } from "react";
 import "./css/CreateDoctors.css";
 
-export const CreateDoctors: React.FC = () => {
+export const CreateDoctors: FC = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -14,7 +14,7 @@ export const CreateDoctors: React.FC = () => {
     licenseNumber: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -22,7 +22,7 @@ export const CreateDoctors: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     alert("Doctor created: " + JSON.stringify(formData));
     // TODO: Integrate with API

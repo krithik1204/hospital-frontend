@@ -1,8 +1,8 @@
-import React from "react";
+import { type FC } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import "./css/MultiRoleDashboard.css";
 
-export const MultiRoleDashboard: React.FC = () => {
+export const MultiRoleDashboard: FC = () => {
   return (
     <div className="multi-dashboard">
       <aside className="multi-sidebar">

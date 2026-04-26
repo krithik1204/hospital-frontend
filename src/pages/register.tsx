@@ -1,35 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { type ChangeEvent, type FormEvent, type FC, useState, useEffect } from "react";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { register } from "../features/auth/authApi";
+import { InputRow } from "../components/InputRow";
+import { useApiCall } from "../hooks/useApiCall";
 import "./css/register.css";
 
-interface InputRowProps {
-  label: string;
-  name: string;
-  type?: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder?: string;
-}
-
-/* ✅ MUST be outside component to avoid re-render issues */
-const InputRow: React.FC<InputRowProps> = ({ label, name, type = "text", value, onChange, placeholder }) => (
-  <div className="input-row">
-    <label className="input-label">{label}</label>
-    <input
-      type={type}
-      name={name}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      className="input-field"
-    />
-  </div>
-);
-
-export const Register: React.FC = () => {
+export const Register: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { loading, saving, rejected, error, execute } = useApiCall<any>();
   const isLogin = location.pathname === "/login";
 
   const [formData, setFormData] = useState({
@@ -43,7 +22,7 @@ export const Register: React.FC = () => {
   });
 
   /* ✅ FIXED handleChange (prevents cursor jump issues) */
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
@@ -56,12 +35,15 @@ export const Register: React.FC = () => {
     console.log("Component mounted");
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert(formData);
-    const res = await register(formData);
-    console.log(res.data);
-    navigate("/login");
+    try {
+      const res = await execute(() => register(formData), { saving: true });
+      console.log(res.data);
+      navigate("/login");
+    } catch (err) {
+      console.error("Registration failed:", err);
+    }
   };
 
   return (
@@ -172,9 +154,16 @@ export const Register: React.FC = () => {
             <button
               type="submit"
               className="register-btn"
+              disabled={loading || saving}
             >
-              Register
+              {saving ? "Saving..." : "Register"}
             </button>
+
+            {rejected && error && (
+              <div className="register-error">
+                <p>{error}</p>
+              </div>
+            )}
 
             <p className="register-link">
               Already have an account?{" "}

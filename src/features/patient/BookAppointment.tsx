@@ -1,8 +1,8 @@
 
-import React from "react";
+import { type FC } from "react";
 import "./css/BookAppointment.css";
 
-export const BookAppointment: React.FC = () => {
+export const BookAppointment: FC = () => {
   return (
     <div className="book-appointment-main">
       <div className="book-appointment-content">

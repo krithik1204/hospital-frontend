@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Register } from "../pages/register";
@@ -12,7 +12,7 @@ import { MultiRoleDashboard } from "../features/common/MultiRoleDashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import RoleProtectedRoute from "./RoleProtectedRoute";
 
-export const AppRoutes: React.FC = () => {
+export const AppRoutes: FC = () => {
   const { isAuthenticated, roles } = useSelector((state: any) => state.auth);
   const hasAdmin = roles.includes("ROLE_ADMIN");
   const hasPatient = roles.includes("ROLE_PATIENT");

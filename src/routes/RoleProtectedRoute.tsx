@@ -1,13 +1,13 @@
-import React from "react";
+import { type FC, type ReactNode } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
 interface RoleProtectedRouteProps {
   allowedRoles: string[];
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-const RoleProtectedRoute: React.FC<RoleProtectedRouteProps> = ({ allowedRoles, children }) => {
+const RoleProtectedRoute: FC<RoleProtectedRouteProps> = ({ allowedRoles, children }) => {
   const roles = useSelector((state: any) => state.auth.roles);
   const location = useLocation();
 

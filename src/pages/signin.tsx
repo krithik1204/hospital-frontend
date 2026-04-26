@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { type ChangeEvent, type FormEvent, type FC, useState, useEffect } from "react";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { login } from "../features/auth/authApi";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../features/auth/authSlice";
+import { useApiCall } from "../hooks/useApiCall";
 import "./css/signin.css";
 
-export const Signin: React.FC = () => {
+export const Signin: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // ✅ FIXED (inside component)
+  const dispatch = useDispatch();
+  const { loading, saving, rejected, error, execute } = useApiCall<any>();
 
   const isLogin = location.pathname === "/login";
 
@@ -17,7 +19,7 @@ export const Signin: React.FC = () => {
     password: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
@@ -30,12 +32,12 @@ export const Signin: React.FC = () => {
     console.log("Component mounted");
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const response = await login(formData);
-console.log(JSON.stringify(response.data));
+      const response = await execute(() => login(formData), { saving: true });
+
       const token = response?.data?.token;
       const responseRoles = response?.data?.roles;
       const userRoles = Array.isArray(responseRoles) ? responseRoles : [];
@@ -47,7 +49,6 @@ console.log(JSON.stringify(response.data));
         return;
       }
 
-      // ✅ Store token + roles + email + userId via RTK
       dispatch(
         loginSuccess({
           token,
@@ -57,7 +58,6 @@ console.log(JSON.stringify(response.data));
         })
       );
 
-      // 👉 redirect after login
       const hasAdmin = userRoles.includes("ROLE_ADMIN");
       const hasPatient = userRoles.includes("ROLE_PATIENT");
       const redirectPath = hasAdmin && hasPatient
@@ -67,10 +67,8 @@ console.log(JSON.stringify(response.data));
         : "/patient/book";
 
       navigate(redirectPath);
-
     } catch (error) {
       console.error("Login failed:", error);
-      alert("Login failed. Check credentials.");
     }
   };
 
@@ -119,9 +117,16 @@ console.log(JSON.stringify(response.data));
               <button
                 type="submit"
                 className="signin-btn"
+                disabled={loading || saving}
               >
-                Login
+                {saving ? "Logging in..." : "Login"}
               </button>
+
+              {rejected && error && (
+                <div className="signin-error">
+                  <p>{error}</p>
+                </div>
+              )}
 
               {/* LINK */}
               <p className="signin-link">
